@@ -30,14 +30,18 @@
         :do {
             :put "Download: $scriptName"
             :local source [$download $scriptUrl];
+            
+            :do {
+                [/system/script/remove $scriptName];
+            } on-error={};
+            /system/script/add name=$scriptName dont-require-permissions=yes source=$source;
+            
             :if ( $scriptTarget="run" ) do={
-                :parse $source;
+                /system/script/run $scriptName;
+                /system/script/remove $scriptName;
             }
             :if ( $scriptTarget="script" ) do={
-                :do {
-                    [/system/script/remove $scriptName];
-                } on-error={};
-                /system/script/add name=$scriptName dont-require-permissions=yes source=$source;
+                #register
             }
         } on-error={
             :put "Fail: $scriptName"
