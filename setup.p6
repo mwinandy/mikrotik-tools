@@ -1,7 +1,8 @@
 {
 
     :local download do={
-        ([/tool fetch url="$1" output=file dst-path="fetch.temp" as-value]);
+        [/file/remove "fetch.temp"];
+        [/tool fetch url="$1" output=file dst-path="fetch.temp" as-value];
         :local content [/file/get "fetch.temp" contents];
         [/file/remove "fetch.temp"];
         :return $content;
