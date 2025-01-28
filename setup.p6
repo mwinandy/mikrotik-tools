@@ -1,7 +1,9 @@
 {
 
     :local download do={
-        [/file/remove "fetch.temp"];
+        :do {
+            [/file/remove "fetch.temp"];
+        } on-error={};
         [/tool fetch url="$1" output=file dst-path="fetch.temp" as-value];
         :local content [/file/get "fetch.temp" contents];
         [/file/remove "fetch.temp"];
