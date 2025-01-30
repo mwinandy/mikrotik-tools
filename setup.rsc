@@ -1,24 +1,25 @@
 {
 
     :local download do={
+        :local path ("temp".[$epoch]);
         :do {
-            [/file/remove "fetch.temp"];
+            [/file/remove $path];
         } on-error={};
-        [/tool fetch url="$1" output=file dst-path="fetch.temp" as-value];
-        :local content [/file/get "fetch.temp" contents];
-        [/file/remove "fetch.temp"];
+        [/tool fetch url="$1" output=file dst-path=$path as-value];
+        :local content [/file/get $path contents];
+        [/file/remove $path];
         :return $content;
     }
 
     :local scripts {
         {
-            "name"="freemobileIPv6.p6";
-            "url"="https://raw.githubusercontent.com/mwinandy/mikrotik-tools/refs/heads/main/freemobileIPv6.p6"
+            "name"="freemobileIPv6.rsc";
+            "url"="https://raw.githubusercontent.com/mwinandy/mikrotik-tools/refs/heads/main/freemobileIPv6.rsc"
             "target"="script"
         };
         {
-            "name"="mk_function.p6";
-            "url"="https://raw.githubusercontent.com/mwinandy/mikrotik-tools/refs/heads/main/function.p6";
+            "name"="mk_function.rsc";
+            "url"="https://raw.githubusercontent.com/mwinandy/mikrotik-tools/refs/heads/main/function.rsc";
             "target"="run"
         };
         
