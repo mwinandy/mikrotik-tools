@@ -45,7 +45,7 @@
             };
         
             :while ( [:len $block] < 4 ) do={ 
-                :set block ($block."0");
+                :set block ("0".$block);
             }
         
             :set ($resultArray->"block_$i") $block;
@@ -57,6 +57,8 @@
         :foreach i in=[:range from=2 to=8] do={
                 :set ($resultArray->"ip") ($resultArray->"ip".":".($resultArray->"block_$i"));
         }
+        
+        :set ($resultArray->"ip") ($resultArray->"ip".($resultArray->"prefix"));
             
         :return $resultArray;
     };
