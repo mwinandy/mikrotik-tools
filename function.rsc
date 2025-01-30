@@ -9,7 +9,7 @@
     };
 
     :global epoch do={
-        [:pick [:tonsec [:timestamp]] 0 10]
+        :return [:pick [:tonsec [:timestamp]] 0 10];
     }
 
     :global splitIPv6 do={
