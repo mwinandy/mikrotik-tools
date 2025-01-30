@@ -35,7 +35,7 @@
                 :foreach address in=$addressToDisable do={
                     /ipv6/address/enable $address;
                 }
-                :log "Freemobile 4G Prefix updated";
+                :log info "Freemobile 4G Prefix updated";
             }
             
             
