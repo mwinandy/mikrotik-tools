@@ -13,6 +13,11 @@
 
     :local scripts {
         {
+            "name"="onboot_update.rsc";
+            "url"="https://raw.githubusercontent.com/mwinandy/mikrotik-tools/refs/heads/main/onboot_update.rsc"
+            "target"="script"
+        };
+        {
             "name"="freemobileIPv6.rsc";
             "url"="https://raw.githubusercontent.com/mwinandy/mikrotik-tools/refs/heads/main/freemobileIPv6.rsc"
             "target"="script"
@@ -47,6 +52,11 @@
             :if ( $scriptTarget="script" ) do={
                 #register
             }
+            
+            
+            
+            
+            
         } on-error={
             :put "Fail: $scriptName"
         }
