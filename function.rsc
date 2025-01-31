@@ -17,7 +17,6 @@
     }
     
     :global waitInternet do={
-    {
         :local internet "no"
         :do {
             :log info "Internet is not ready";
