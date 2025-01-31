@@ -1,8 +1,8 @@
 {
     
-    /system/script/run mktools-mk_function.rsc;
+    /system/script/run mktools-functions.rsc;
     
-    [$waitInternet];
+    [$mkToolsWaitInternet];
     
     
     

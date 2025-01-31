@@ -6,7 +6,7 @@
     /tool/netwatch/add name="mktools-internet-availability" host="1.1.1.1" interval=1m type=icmp down-script="{ :global mktoolsInternetIsReady \"no\" }" up-script="{ :global mktoolsInternetIsReady \"yes\" }"
 
     :local download do={
-        :local path ("temp".[$epoch]);
+        :local path ("temp".[:pick [:tonsec [:timestamp]] 0 10]);
         :do {
             [/file/remove $path];
         } on-error={};
