@@ -1,22 +1,22 @@
 {
 
-    :global getCloudIP do={
+    :global mkToolsGetCloudIP do={
         /ip/cloud/force-update;
         :delay 1000ms;
         :return [/ip/cloud/get public-address];
     };
 
-    :global getCloudIPv6 do={
+    :global mkToolsGetCloudIPv6 do={
         /ip/cloud/force-update;
         :delay 1000ms;
         :return [/ip/cloud/get public-address-ipv6];
     };
 
-    :global epoch do={
+    :global mkToolsEpoch do={
         :return [:pick [:tonsec [:timestamp]] 0 10];
     };
     
-    :global waitInternet do={
+    :global mkToolsWaitInternet do={
         :local internet "no";
         :set internet $mktoolsInternetIsReady;
         :while ( $internet != "yes" ) do={
@@ -27,7 +27,7 @@
     };
     
 
-    :global splitIPv6 do={
+    :global mkToolsSplitIPv6 do={
         :local inputIPv6 ($1);
         :local resultArray [];
         
