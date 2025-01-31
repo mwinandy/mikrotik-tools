@@ -4,16 +4,16 @@
 ```
 {
     :do {
-        [/system/script/remove "setup.rsc"];
+        [/system/script/remove "mktools-setup.rsc"];
     } on-error={};
     [/tool fetch url="https://raw.githubusercontent.com/mwinandy/mikrotik-tools/refs/heads/main/setup.rsc" output=file dst-path="setup.rsc" as-value];
-    :local content [/file/get "setup.rsc" contents];
-    [/file/remove "setup.rsc"];
+    :local content [/file/get "mktools-setup.rsc" contents];
+    [/file/remove "mktools-setup.rsc"];
     :do {
-        [/system/script/remove "setup.rsc"];
+        [/system/script/remove "mktools-setup.rsc"];
     } on-error={};
-    /system/script/add name="setup.rsc" dont-require-permissions=yes source=$content;
-    /system/script/run "setup.rsc";
-    /system/script/remove "setup.rsc";
+    /system/script/add name="mktools-setup.rsc" dont-require-permissions=yes source=$content;
+    /system/script/run "mktools-setup.rsc";
+    /system/script/remove "mktools-setup.rsc";
 }
 ```
