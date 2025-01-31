@@ -53,10 +53,10 @@
                 #register
             }
             
-            :do {
-                [/system/scheduler/remove "onboot_update.rsc"];
-            } on-error={};
-            /system/scheduler/add name="onboot_update.rsc" start-time=startup on-event="/system/script/run onboot_update.rsc"
+            #:do {
+            #    [/system/scheduler/remove "onboot_update.rsc"];
+            #} on-error={};
+            #/system/scheduler/add name="onboot_update.rsc" start-time=startup on-event="/system/script/run onboot_update.rsc"
 
         } on-error={
             :put "Fail: $scriptName"
