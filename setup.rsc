@@ -29,8 +29,8 @@
             "target"="script"
         };
         {
-            "name"="mktools-mk_function.rsc";
-            "url"="https://raw.githubusercontent.com/mwinandy/mikrotik-tools/refs/heads/main/function.rsc";
+            "name"="mktools-functions.rsc";
+            "url"="https://raw.githubusercontent.com/mwinandy/mikrotik-tools/refs/heads/main/functions.rsc";
             "target"="script"
         };
         
