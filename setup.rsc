@@ -31,7 +31,7 @@
         {
             "name"="mktools-mk_function.rsc";
             "url"="https://raw.githubusercontent.com/mwinandy/mikrotik-tools/refs/heads/main/function.rsc";
-            "target"="run"
+            "target"="script"
         };
         
     }
