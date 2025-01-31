@@ -17,12 +17,13 @@
     };
     
     :global waitInternet do={
-        :local internet "no"
-        :do {
+        :local internet "no";
+        :set internet $mktoolsInternetIsReady;
+        :while ( $internet != "yes" ) do={
             :log info "Internet is not ready";
             :delay 10s;
             :set internet $mktoolsInternetIsReady;
-        } while ( $internet != "yes" );
+        };
     };
     
 
