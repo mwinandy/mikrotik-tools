@@ -3,7 +3,7 @@
     :do {
         /tool/netwatch/remove "mktools-internet-availability";
     } on-error={};
-    /tool/netwatch/add name="mktools-internet-availability" host="1.1.1.1" interval=1m type=icmp down-script="{ :global mktoolsInternetIsReady \"no\" }" up-script="{ :global mktoolsInternetIsReady \"yes\" }"
+    /tool/netwatch/add name="mktools-internet-availability" host="1.1.1.1" interval=30s type=icmp
 
     :local download do={
         :local path ("temp".[:pick [:tonsec [:timestamp]] 0 10]);

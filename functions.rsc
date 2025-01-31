@@ -17,13 +17,7 @@
     };
     
     :global mkToolsWaitInternet do={
-        :local internet "no";
-        :set internet $mktoolsInternetIsReady;
-        :while ( $internet != "yes" ) do={
-            :log info "Internet is not ready";
-            :delay 10s;
-            :set internet $mktoolsInternetIsReady;
-        };
+        :while ( ([/tool/netwatch/get mktools-internet-availability]->"status") != "up" ) do={};
     };
     
 
