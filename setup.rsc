@@ -21,6 +21,7 @@
             "name"="mktools-onboot_update.rsc";
             "url"="https://raw.githubusercontent.com/mwinandy/mikrotik-tools/refs/heads/main/onboot_update.rsc"
             "target"="script"
+            "replace"="false"
         };
         {
             "name"="mktools-freemobileIPv6.rsc";
@@ -40,22 +41,25 @@
         :local scriptName ($script->"name");
         :local scriptUrl ($script->"url");
         :local scriptTarget ($script->"target");
+        :local scriptReplace ($script->"replace");
         
         :do {
             :put "Download: $scriptName"
             :local source [$download $scriptUrl];
             
-            :do {
-                [/system/script/remove $scriptName];
-            } on-error={};
-            /system/script/add name=$scriptName dont-require-permissions=yes source=$source;
+            :if ( $scriptReplace != "false" ) do={
+                :do {
+                    [/system/script/remove $scriptName];
+                } on-error={};
+                /system/script/add name=$scriptName dont-require-permissions=yes source=$source;
             
-            :if ( $scriptTarget="run" ) do={
-                /system/script/run $scriptName;
-                /system/script/remove $scriptName;
-            }
-            :if ( $scriptTarget="script" ) do={
-                #register
+                :if ( $scriptTarget="run" ) do={
+                    /system/script/run $scriptName;
+                    /system/script/remove $scriptName;
+                }
+                :if ( $scriptTarget="script" ) do={
+                    #register
+                }
             }
             
             :do {
