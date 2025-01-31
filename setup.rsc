@@ -51,10 +51,12 @@
                     :do {
                         [/system/script/remove $scriptName];
                     } on-error={};
-                    :do {
-                        /system/script/add name=$scriptName dont-require-permissions=yes source=$source;
-                    } on-error={};
                 }
+                
+                :do {
+                    /system/script/add name=$scriptName dont-require-permissions=yes source=$source;
+                } on-error={};
+                
 
                 :if ( $scriptTarget="run" ) do={
                     /system/script/run $scriptName;
