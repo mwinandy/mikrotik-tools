@@ -1,4 +1,7 @@
 {
+    
+    /system/script/run mktools-mk_function.rsc;
+    
     [$waitInternet];
 
     :if (  ([/interface/lte/monitor "Freemobile 4G" once as-value]->"functionality") = "full" ) do={ 

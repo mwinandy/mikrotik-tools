@@ -1,6 +1,10 @@
 {
     
+    /system/script/run mktools-mk_function.rsc;
+    
     [$waitInternet];
+    
+    
     
     :do {
         [/system/script/remove "mktools-setup.rsc"];
