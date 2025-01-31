@@ -1,4 +1,5 @@
 {
+    [$waitInternet];
 
     :if (  ([/interface/lte/monitor "Freemobile 4G" once as-value]->"functionality") = "full" ) do={ 
 

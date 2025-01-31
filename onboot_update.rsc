@@ -1,4 +1,7 @@
 {
+    
+    [$waitInternet];
+    
     :do {
         [/system/script/remove "mktools-setup.rsc"];
     } on-error={};

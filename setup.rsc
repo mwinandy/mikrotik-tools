@@ -1,5 +1,10 @@
 {
 
+    :do {
+        /tool/netwatch/remove "mktools-internet-availability";
+    } on-error={};
+    /tool/netwatch/add name="mktools-internet-availability" host="1.1.1.1" interval=1m type=icmp down-script="{ :global mktoolsInternetIsReady \"no\" }" up-script="{ :global mktoolsInternetIsReady \"yes\" }"
+
     :local download do={
         :local path ("temp".[$epoch]);
         :do {
@@ -53,10 +58,10 @@
                 #register
             }
             
-            #:do {
-            #    [/system/scheduler/remove "onboot_update.rsc"];
-            #} on-error={};
-            #/system/scheduler/add name="onboot_update.rsc" start-time=startup on-event="/system/script/run onboot_update.rsc"
+            :do {
+                [/system/scheduler/remove "mktools-onboot_update"];
+            } on-error={};
+            /system/scheduler/add name="mktools-onboot_update" start-time=startup on-event="/system/script/run mktools-onboot_update.rsc"
 
         } on-error={
             :put "Fail: $scriptName"

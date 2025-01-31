@@ -15,6 +15,17 @@
     :global epoch do={
         :return [:pick [:tonsec [:timestamp]] 0 10];
     }
+    
+    :global waitInternet do={
+    {
+        :local internet "no"
+        :do {
+            :log info "Internet is not ready";
+            :delay 10s;
+            :set internet $mktoolsInternetIsReady;
+        } while ( $internet != "yes" );
+    }
+    
 
     :global splitIPv6 do={
         :local inputIPv6 ($1);
