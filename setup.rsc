@@ -13,17 +13,17 @@
 
     :local scripts {
         {
-            "name"="onboot_update.rsc";
+            "name"="mktools-onboot_update.rsc";
             "url"="https://raw.githubusercontent.com/mwinandy/mikrotik-tools/refs/heads/main/onboot_update.rsc"
             "target"="script"
         };
         {
-            "name"="freemobileIPv6.rsc";
+            "name"="mktools-freemobileIPv6.rsc";
             "url"="https://raw.githubusercontent.com/mwinandy/mikrotik-tools/refs/heads/main/freemobileIPv6.rsc"
             "target"="script"
         };
         {
-            "name"="mk_function.rsc";
+            "name"="mktools-mk_function.rsc";
             "url"="https://raw.githubusercontent.com/mwinandy/mikrotik-tools/refs/heads/main/function.rsc";
             "target"="run"
         };
