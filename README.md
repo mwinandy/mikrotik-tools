@@ -3,9 +3,6 @@
 ## Setup
 ```
 {
-    :do {
-        [/system/script/remove "mktools-setup.rsc"];
-    } on-error={};
     [/tool fetch url="https://raw.githubusercontent.com/mwinandy/mikrotik-tools/refs/heads/main/setup.rsc" output=file dst-path="mktools-setup.rsc" as-value];
     :local content [/file/get "mktools-setup.rsc" contents];
     [/file/remove "mktools-setup.rsc"];
