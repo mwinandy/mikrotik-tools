@@ -1,10 +1,14 @@
 {
 
     :global getCloudIP do={
+        /ip/cloud/force-update;
+        :delay 1000ms;
         :return [/ip/cloud/get public-address];
     };
 
     :global getCloudIPv6 do={
+        /ip/cloud/force-update;
+        :delay 1000ms;
         :return [/ip/cloud/get public-address-ipv6];
     };
 
