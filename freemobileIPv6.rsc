@@ -51,7 +51,7 @@
                     /ipv6/address/enable numbers=$address;
                 }
                 
-                /log/info message="Freemobile 4G Prefix updated";
+                /log/info message="Freemobile pool prefix updated";
                 
             } else={
                 
