@@ -1,6 +1,6 @@
 {
     
-    [/system/script/run mktools-functions.rsc];
+    (import mktools/functions.rsc);
     
     :global mkToolsWaitInternet;
     :global mkToolsSplitIPv6;

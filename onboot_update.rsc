@@ -1,6 +1,6 @@
 {
 
-    [import mktools/functions.rsc];
+    (import mktools/functions.rsc);
     
     :global mkToolsWaitInternet;
 
