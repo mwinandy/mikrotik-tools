@@ -70,7 +70,7 @@
     :do {
         [/system/scheduler/remove "onboot_update"];
     } on-error={};
-    /system/scheduler/add name="onboot_update" start-time=startup interval="0:0:0" on-event="import mktools/onboot_update.rsc;";
+    /system/scheduler/add name="onboot_update" start-time=startup interval="0:15:0" on-event="import mktools/onboot_update.rsc;";
     
     
     
