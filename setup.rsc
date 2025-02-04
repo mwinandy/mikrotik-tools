@@ -15,23 +15,26 @@
         [/file/remove $path];
         :return $content;
     }
+    
+    :do {
+        /file/add type=directory name="mktools";
+    } on-error={};
 
     :local scripts {
         {
-            "name"="mktools-onboot_update.rsc";
+            "name"="onboot_update.rsc";
             "url"="https://raw.githubusercontent.com/mwinandy/mikrotik-tools/refs/heads/main/onboot_update.rsc"
-            "target"="script"
-            "replace"="false"
+            "target"="file"
         };
         {
-            "name"="mktools-freemobileIPv6.rsc";
+            "name"="freemobileIPv6.rsc";
             "url"="https://raw.githubusercontent.com/mwinandy/mikrotik-tools/refs/heads/main/freemobileIPv6.rsc"
-            "target"="script"
+            "target"="file"
         };
         {
-            "name"="mktools-functions.rsc";
+            "name"="functions.rsc";
             "url"="https://raw.githubusercontent.com/mwinandy/mikrotik-tools/refs/heads/main/functions.rsc";
-            "target"="script"
+            "target"="file"
         };
         
     }
@@ -39,43 +42,37 @@
     :foreach script in=$scripts do={
         
         :local scriptName ($script->"name");
+        :local scriptPath "mktools/$scriptName";
         :local scriptUrl ($script->"url");
         :local scriptTarget ($script->"target");
         :local scriptReplace ($script->"replace");
+        :local scriptSource [$download $scriptUrl];
+        
+        :put $scriptPath;
         
         :do {
             :put "Download: $scriptName"
-            :local source [$download $scriptUrl];
-            
-                :if ( $scriptReplace != "false" ) do={
-                    :do {
-                        [/system/script/remove $scriptName];
-                    } on-error={};
-                }
+
+            :if ( $scriptTarget="file" ) do={
                 
                 :do {
-                    /system/script/add name=$scriptName dont-require-permissions=yes source=$source;
+                    /file/remove $scriptPath
                 } on-error={};
                 
-
-                :if ( $scriptTarget="run" ) do={
-                    /system/script/run $scriptName;
-                    /system/script/remove $scriptName;
-                }
-                :if ( $scriptTarget="script" ) do={
-                    #register
-                }
-
-            :do {
-                [/system/scheduler/remove "mktools-onboot_update"];
-            } on-error={};
-            /system/scheduler/add name="mktools-onboot_update" start-time=startup on-event="/system/script/run mktools-onboot_update.rsc"
-
+                /file/add type=file name=$scriptPath content=$scriptSource;
+            };
+            
         } on-error={
             :put "Fail: $scriptName"
         }
 
     };
+    
+    
+    :do {
+        [/system/scheduler/remove "onboot_update"];
+    } on-error={};
+    /system/scheduler/add name="onboot_update" start-time=startup interval="0:0:0" on-event="import mktools/onboot_update.rsc;";
     
     
     
