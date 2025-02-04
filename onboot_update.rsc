@@ -1,13 +1,11 @@
 {
 
-    [/system/script/run mktools-functions.rsc];
+    [import mktools/functions.rsc];
     
     :global mkToolsWaitInternet;
 
     [$mkToolsWaitInternet];
-    
-    
-    
+
     :do {
         [/system/script/remove "mktools-setup.rsc"];
     } on-error={};
