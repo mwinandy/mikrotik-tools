@@ -47,11 +47,9 @@
         :local scriptTarget ($script->"target");
         :local scriptReplace ($script->"replace");
         :local scriptSource [$download $scriptUrl];
-        
-        :put $scriptPath;
-        
+                
         :do {
-            :put "Download: $scriptName"
+            :put "Download: $scriptName to $scriptPath";
 
             :if ( $scriptTarget="file" ) do={
                 

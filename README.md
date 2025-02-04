@@ -12,7 +12,6 @@
 ## FreemobileIPv6
 ```
 {
-    
     :do {
         [/system/scheduler/remove "mkToolsFreemobileIPv6"];
     } on-error={};
