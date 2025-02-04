@@ -2,6 +2,9 @@
     
     [/system/script/run mktools-functions.rsc];
     
+    :global mkToolsWaitInternet;
+    :global mkToolsSplitIPv6;
+    
     [$mkToolsWaitInternet];
 
     :if (  ([/interface/lte/monitor "Freemobile 4G" once as-value]->"functionality") = "full" ) do={ 

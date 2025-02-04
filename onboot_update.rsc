@@ -1,7 +1,9 @@
 {
+
+    [/system/script/run mktools-functions.rsc];
     
-    /system/script/run mktools-functions.rsc;
-    
+    :global mkToolsWaitInternet;
+
     [$mkToolsWaitInternet];
     
     
