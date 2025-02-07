@@ -1,6 +1,6 @@
 {
 
-    (import mktools/functions.rsc);
+    (import flash/mktools/functions.rsc);
     
     :global mkToolsWaitInternet;
 

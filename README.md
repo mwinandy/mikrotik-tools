@@ -15,6 +15,6 @@
     :do {
         [/system/scheduler/remove "mkToolsFreemobileIPv6"];
     } on-error={};
-    /system/scheduler/add name="mkToolsFreemobileIPv6" interval="0:0:30" on-event="import mktools/freemobileIPv6.rsc;";
+    /system/scheduler/add name="mkToolsFreemobileIPv6" interval="0:0:30" on-event="import flash/mktools/freemobileIPv6.rsc;";
 }
 ```

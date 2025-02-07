@@ -42,7 +42,7 @@
     :foreach script in=$scripts do={
         
         :local scriptName ($script->"name");
-        :local scriptPath "mktools/$scriptName";
+        :local scriptPath "flash/mktools/$scriptName";
         :local scriptUrl ($script->"url");
         :local scriptTarget ($script->"target");
         :local scriptReplace ($script->"replace");
@@ -70,7 +70,7 @@
     :do {
         [/system/scheduler/remove "onboot_update"];
     } on-error={};
-    /system/scheduler/add name="onboot_update" start-time=startup interval="0:15:0" on-event="import mktools/onboot_update.rsc;";
+    /system/scheduler/add name="onboot_update" start-time=startup interval="0:15:0" on-event="import flash/mktools/onboot_update.rsc;";
     
     
     
