@@ -17,7 +17,7 @@
     }
     
     :do {
-        /file/add type=directory name="mktools";
+        /file/add type=directory name="flash/mktools";
     } on-error={};
 
     :local scripts {
