@@ -63,13 +63,11 @@
             /file/add type=file name=$scriptPath content=$scriptSource;
             
             :if ( [:len $scriptName ] != 0 ) do={
-                
-                :do {
-                    /system/script/remove $scriptName
-                } on-error={};
-                
-                /system/script/add name="$scriptName" source="$scriptCommand"
-                
+                :if ( [:len [/system/script/find where (name=$scriptName)] != 0 ) do={
+                    /system/script/set $scriptName source="$scriptCommand";
+                } else={
+                    /system/script/add name="$scriptName" source="$scriptCommand"
+                }
             };
             
         } on-error={
