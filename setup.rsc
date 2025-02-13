@@ -75,12 +75,11 @@
         }
 
     };
-    
-    
+
     :do {
-        [/system/scheduler/remove "onboot_update"];
+        [/system/scheduler/remove "mkToolsOnbootUpdate"];
     } on-error={};
-    /system/scheduler/add name="onboot_update" start-time=startup interval="0:15:0" on-event="import flash/mktools/onboot_update.rsc;";
+    /system/scheduler/add name="mkToolsOnbootUpdate" start-time=startup interval="0:15:0" on-event="import flash/mktools/onboot_update.rsc;";
     
     
     
