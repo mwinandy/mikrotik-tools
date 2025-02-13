@@ -24,9 +24,18 @@
     };
     
     :global mkToolsWaitInternet do={
+        
         :global mklog;
+        :local watcherName "mktools-internet-availability";
+        :local nws [/tool/netwatch/find (name=$watcherName)];
+        
+        :if ( [:len $nws] = 0 ) do={
+            /tool/netwatch/add name=$watcherName host="1.1.1.1" interval=30s type=icmp startup-delay="0:0:20";
+        }
+
         :while ( ([/tool/netwatch/get mktools-internet-availability]->"status") != "up" ) do={
             [$mklog "Waiting internet..."];
+            :delay 15s;
         };
     };
     
