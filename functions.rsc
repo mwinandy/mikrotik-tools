@@ -1,7 +1,12 @@
 {
 
     [import flash/mktools.env];
-
+    
+    :global mklog do={
+        :put "$1";
+        /log/info message="$1";
+    };
+    
     :global mkToolsGetCloudIP do={
         /ip/cloud/force-update;
         :delay 1000ms;
@@ -19,7 +24,10 @@
     };
     
     :global mkToolsWaitInternet do={
-        :while ( ([/tool/netwatch/get mktools-internet-availability]->"status") != "up" ) do={};
+        :global mklog;
+        :while ( ([/tool/netwatch/get mktools-internet-availability]->"status") != "up" ) do={
+            [$mklog "Waiting internet..."];
+        };
     };
     
 
