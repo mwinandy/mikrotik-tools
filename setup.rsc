@@ -23,45 +23,56 @@
     :do {
         /file/add type=file name="flash/mktools.env";
     } on-error={};
+    
+    [import "flash/mktools.env"];
 
     :local scripts {
         {
-            "name"="onboot_update.rsc";
-            "url"="https://raw.githubusercontent.com/mwinandy/mikrotik-tools/refs/heads/main/onboot_update.rsc"
-            "target"="file"
+            "url"="https://raw.githubusercontent.com/mwinandy/mikrotik-tools/refs/heads/main/onboot_update.rsc";
+            "path"="flash/mktools/onboot_update.rsc"
         };
         {
-            "name"="freemobileIPv6.rsc";
-            "url"="https://raw.githubusercontent.com/mwinandy/mikrotik-tools/refs/heads/main/freemobileIPv6.rsc"
-            "target"="file"
+            "url"="https://raw.githubusercontent.com/mwinandy/mikrotik-tools/refs/heads/main/freemobileIPv6.rsc";
+            "path"="flash/mktools/freemobileIPv6.rsc"
         };
         {
-            "name"="functions.rsc";
             "url"="https://raw.githubusercontent.com/mwinandy/mikrotik-tools/refs/heads/main/functions.rsc";
-            "target"="file"
+            "path"="flash/mktools/functions.rsc"
+        };
+        {
+            "url"="https://raw.githubusercontent.com/mwinandy/mikrotik-tools/refs/heads/main/backup.rsc";
+            "path"="flash/mktools/backup.rsc"
+            "script"="MkToolsBackup";
+            "command"="import flash/mktools/backup.rsc;";
         };
         
     }
     
     :foreach script in=$scripts do={
         
-        :local scriptName ($script->"name");
-        :local scriptPath "flash/mktools/$scriptName";
+        :local scriptPath ($script->"path");
         :local scriptUrl ($script->"url");
-        :local scriptTarget ($script->"target");
-        :local scriptReplace ($script->"replace");
         :local scriptSource [$download $scriptUrl];
+        :local scriptName ($script->"script");
+        :local scriptCommand ($script->"command");
                 
         :do {
-            :put "Download: $scriptName to $scriptPath";
+            :put "Download: $scriptUrl to $scriptPath";
 
-            :if ( $scriptTarget="file" ) do={
+            :do {
+                /file/remove $scriptPath
+            } on-error={};
+            
+            /file/add type=file name=$scriptPath content=$scriptSource;
+            
+            :if ( [:len $scriptName ] != 0 ) do={
                 
                 :do {
-                    /file/remove $scriptPath
+                    /system/script/remove $scriptName
                 } on-error={};
                 
-                /file/add type=file name=$scriptPath content=$scriptSource;
+                /system/script/add name="$scriptName" source="$scriptCommand"
+                
             };
             
         } on-error={
