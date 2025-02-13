@@ -19,6 +19,10 @@
     :do {
         /file/add type=directory name="flash/mktools";
     } on-error={};
+    
+    :do {
+        /file/add type=file name="flash/mktools.env";
+    } on-error={};
 
     :local scripts {
         {

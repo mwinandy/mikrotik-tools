@@ -1,5 +1,7 @@
 {
 
+    (import flash/mktools.env);
+
     :global mkToolsGetCloudIP do={
         /ip/cloud/force-update;
         :delay 1000ms;
