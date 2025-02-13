@@ -1,6 +1,6 @@
 {
     
-    (import flash/mktools/functions.rsc);
+    [import flash/mktools/functions.rsc];
     
     :global mkToolsWaitInternet;
     :global mkToolsSplitIPv6;

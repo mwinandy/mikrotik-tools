@@ -1,6 +1,6 @@
 {
 
-    (import flash/mktools.env);
+    [import flash/mktools.env];
 
     :global mkToolsGetCloudIP do={
         /ip/cloud/force-update;
