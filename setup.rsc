@@ -63,7 +63,7 @@
             /file/add type=file name=$scriptPath content=$scriptSource;
             
             :if ( [:len $scriptName ] != 0 ) do={
-                :if ( [:len [/system/script/find where (name=$scriptName)] != 0 ) do={
+                :if ( [:len [/system/script/find where (name=$scriptName)]] != 0 ) do={
                     /system/script/set $scriptName source="$scriptCommand";
                 } else={
                     /system/script/add name="$scriptName" source="$scriptCommand"
