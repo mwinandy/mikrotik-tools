@@ -30,6 +30,8 @@
         {
             "url"="https://raw.githubusercontent.com/mwinandy/mikrotik-tools/refs/heads/main/onboot_update.rsc";
             "path"="flash/mktools/onboot_update.rsc"
+            "script"="MkToolsOnBootUpdate";
+            "command"="import flash/mktools/onboot_update.rsc;";
         };
         {
             "url"="https://raw.githubusercontent.com/mwinandy/mikrotik-tools/refs/heads/main/freemobileIPv6.rsc";
