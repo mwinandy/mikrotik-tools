@@ -56,12 +56,12 @@
         :do {
             :put "Download: $scriptUrl to $scriptPath";
 
-            :do {
-                /file/remove $scriptPath
-            } on-error={};
-            
-            /file/add type=file name=$scriptPath content=$scriptSource;
-            
+            :if ( [:len [/file/find where (name=$scriptPath)]] = 0 ) do={
+                    /file/add type=file name=$scriptPath content=$scriptSource;
+            } else={
+                    /file/set $scriptPath contents=$scriptSource;
+            }
+
             :if ( [:len $scriptName ] != 0 ) do={
                 :if ( [:len [/system/script/find where (name=$scriptName)]] != 0 ) do={
                     /system/script/set $scriptName source="$scriptCommand";
