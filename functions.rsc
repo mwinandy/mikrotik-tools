@@ -1,10 +1,35 @@
 {
 
     [import flash/mktools.env];
-    
+
+    :global mkToolsTelegramSendMessage do={
+
+        :global mkToolsEnvTelegramToken;
+        :global mkToolsEnvTelegramChatID;
+        :global mkToolsEnvTelegramThreadID;
+        
+        :local botToken $mkToolsEnvTelegramToken;
+        
+        :local data {
+            "chat_id"=$mkToolsEnvTelegramChatID;
+            "message_thread_id"=$mkToolsEnvTelegramThreadID;
+            "text"=$1;
+            "disable_notification"=false;
+        };
+        
+        :local api "https://api.telegram.org/bot$botToken";
+        :local url "$api/sendMessage";
+        
+        :put $url;
+        [/tool/fetch http-method=post http-header-field="Content-Type:application/json" http-data=[:serialize $data to=json options=json.no-string-conversion] url="$url" output=none as-value];
+        
+    }
+
     :global mklog do={
+        :global mkToolsTelegramSendMessage;
         :put "$1";
         /log/info message="$1";
+        $mkToolsTelegramSendMessage $1;
     };
     
     :global mkToolsGetCloudIP do={
@@ -90,28 +115,5 @@
             
         :return $resultArray;
     };
-
-    :global mkToolsTelegramSendMessage do={
-
-        :global mkToolsEnvTelegramToken;
-        :global mkToolsEnvTelegramChatID;
-        :global mkToolsEnvTelegramThreadID;
-        
-        :local botToken $mkToolsEnvTelegramToken;
-        
-        :local data {
-            "chat_id"=$mkToolsEnvTelegramChatID;
-            "message_thread_id"=$mkToolsEnvTelegramThreadID;
-            "text"=$1;
-            "disable_notification"=false;
-        };
-        
-        :local api "https://api.telegram.org/bot$botToken";
-        :local url "$api/sendMessage";
-        
-        :put $url;
-        [/tool/fetch http-method=post http-header-field="Content-Type:application/json" http-data=[:serialize $data to=json options=json.no-string-conversion] url="$url" output=none as-value];
-        
-    }
 
 }
