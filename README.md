@@ -12,9 +12,9 @@
 ## FreemobileIPv6
 ```
 {
-    :do {
-        [/system/scheduler/remove "mkToolsFreemobileIPv6"];
-    } on-error={};
-    /system/scheduler/add name="mkToolsFreemobileIPv6" interval="0:0:30" on-event="import flash/mktools/freemobileIPv6.rsc;";
+    :if ( [:len [/system/scheduler/find where (name="mkToolsFreemobileIPv6")]] = 0 ) do={
+        /system/scheduler/add name="mkToolsFreemobileIPv6";
+    };
+    /system/scheduler/set mkToolsFreemobileIPv6 interval="0:0:30" on-event="import flash/mktools/freemobileIPv6.rsc;";
 }
 ```
