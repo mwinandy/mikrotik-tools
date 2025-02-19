@@ -38,7 +38,7 @@
 
         :global mkToolsTelegramSendMessage;
 
-        :if( [:len $1] > 0 ) do={
+        :if ( [:len $1] > 0 ) do={
             :put "$1";
             /log/info message="$1";
             [$mkToolsTelegramSendMessage $1];
