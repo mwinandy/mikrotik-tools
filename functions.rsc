@@ -9,13 +9,13 @@
     
     :global mkToolsGetCloudIP do={
         /ip/cloud/force-update;
-        :delay 1000ms;
+        :delay 1s;
         :return [/ip/cloud/get public-address];
     };
 
     :global mkToolsGetCloudIPv6 do={
         /ip/cloud/force-update;
-        :delay 1000ms;
+        :delay 1s;
         :return [/ip/cloud/get public-address-ipv6];
     };
 
