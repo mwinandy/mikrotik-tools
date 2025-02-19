@@ -2,6 +2,12 @@
 
     [import flash/mktools.env];
 
+    :local watcherName "mktools-internet-availability";
+    :local nws [/tool/netwatch/find (name=$watcherName)];
+    :if ( [:len $nws] = 0 ) do={
+        /tool/netwatch/add name=$watcherName host="1.1.1.1" interval=30s type=icmp startup-delay="0:0:20";
+    }
+
     :global mkToolsTelegramSendMessage do={
         :global mkToolsEnvTelegramToken;
         :global mkToolsEnvTelegramChatID;
@@ -17,8 +23,14 @@
         
         :local api "https://api.telegram.org/bot$botToken";
         :local url "$api/sendMessage";
-        
-        [/tool/fetch http-method=post http-header-field="Content-Type:application/json" http-data=[:serialize $data to=json options=json.no-string-conversion] url="$url" output=none as-value];
+
+        :if ( ([/tool/netwatch/get mktools-internet-availability]->"status") = "up" ) do={
+            [/tool/fetch http-method=post http-header-field="Content-Type:application/json" http-data=[:serialize $data to=json options=json.no-string-conversion] url="$url" output=none as-value];
+        } else={
+            :local msg "No internet for telegram notify.";
+            :put $msg;
+            /log/info message="$msg";
+        }
         
     };
 
@@ -46,15 +58,7 @@
     };
     
     :global mkToolsWaitInternet do={
-        
         :global mklog;
-        :local watcherName "mktools-internet-availability";
-        :local nws [/tool/netwatch/find (name=$watcherName)];
-        
-        :if ( [:len $nws] = 0 ) do={
-            /tool/netwatch/add name=$watcherName host="1.1.1.1" interval=30s type=icmp startup-delay="0:0:20";
-        }
-
         :while ( ([/tool/netwatch/get mktools-internet-availability]->"status") != "up" ) do={
             [$mklog "Waiting internet..."];
             :delay 15s;
