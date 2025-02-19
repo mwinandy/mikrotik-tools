@@ -44,17 +44,17 @@
                 
                 :foreach address in=$addressToDisable do={
                     /ipv6/address/disable numbers=$address;
-                }
+                };
                 
                 :foreach poolItem in=$poolList do={
                    /ipv6/pool/set numbers=$poolItem prefix=($prefixLTE."::/64");
-                }
+                };
                 
                 :foreach address in=$addressToDisable do={
                     /ipv6/address/enable numbers=$address;
-                }
+                };
 
-                $mklog "Freemobile pool prefix updated from $prefixPool to $prefixLTE";
+                $mklog ("Freemobile pool prefix updated from $prefixPool to $prefixLTE");
                 
             } else={
                 :put "Freemobile pool don't need update";
