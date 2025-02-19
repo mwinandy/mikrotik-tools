@@ -38,7 +38,7 @@
         :global mkToolsTelegramSendMessage;
         :put "$1";
         /log/info message="$1";
-        $mkToolsTelegramSendMessage $1;
+        [$mkToolsTelegramSendMessage $1];
     };
     
     :global mkToolsGetCloudIP do={
