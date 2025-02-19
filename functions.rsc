@@ -18,7 +18,7 @@
         :local data {
             "chat_id"=$mkToolsEnvTelegramChatID;
             "message_thread_id"=$mkToolsEnvTelegramThreadID;
-            "text"=$1;
+            "text"=("$1");
         };
         
         :local api "https://api.telegram.org/bot$botToken";
