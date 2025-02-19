@@ -47,38 +47,38 @@
     
     :foreach script in=$scripts do={
         
-        :local scriptPath ($script->"path");
-        :local scriptUrl ($script->"url");
-        :local scriptSource [$download $scriptUrl];
+        :local filePath ($script->"path");
+        :local fileUrl ($script->"url");
+        :local fileContent [$download $fileUrl];
         :local scriptName ($script->"script");
         :local scriptCommand ($script->"command");
                 
         :do {
-            :put "Download: $scriptUrl to $scriptPath";
+            :put "Download: $fileUrl to $filePath";
 
-            :if ( [:len [/file/find where (name=$scriptPath)]] = 0 ) do={
-                    /file/add type=file name=$scriptPath content=$scriptSource;
-            } else={
-                    /file/set $scriptPath contents=$scriptSource;
-            }
+            :if ( [:len [/file/find where (name=$filePath)]] = 0 ) do={
+                    /file/add type=file name=$filePath;
+            };
+            /file/set $filePath contents=$fileContent;
 
             :if ( [:len $scriptName ] != 0 ) do={
-                :if ( [:len [/system/script/find where (name=$scriptName)]] != 0 ) do={
-                    /system/script/set $scriptName source="$scriptCommand";
-                } else={
-                    /system/script/add name="$scriptName" source="$scriptCommand"
-                }
+
+                :if ( [:len [/system/script/find where (name="$scriptName")]] = 0 ) do={
+                    /system/script/add name="$scriptName";
+                };
+                /system/script/set $scriptName source="$scriptCommand";
+
             };
             
         } on-error={
             :put "Fail: $scriptName"
-        }
+        };
 
     };
 
     :if ( [:len [/system/scheduler/find where (name="mkToolsOnbootUpdate")]] = 0 ) do={
         /system/scheduler/add name="mkToolsOnbootUpdate";
     };
-
     /system/scheduler/set mkToolsOnbootUpdate start-time=startup interval="0:15:0" on-event="import flash/mktools/onboot_update.rsc;";
+
 }
