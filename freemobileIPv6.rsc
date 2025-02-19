@@ -4,7 +4,8 @@
     
     :global mkToolsWaitInternet;
     :global mkToolsSplitIPv6;
-    
+    :global mklog;
+
     [$mkToolsWaitInternet];
     
     :if ( ([/interface/lte/monitor "Freemobile 4G" once as-value]->"functionality") = "full" ) do={ 
@@ -52,15 +53,14 @@
                 :foreach address in=$addressToDisable do={
                     /ipv6/address/enable numbers=$address;
                 }
-                
-                :put "Freemobile pool prefix updated from $prefixPool to $prefixLTE";
-                /log/info message="Freemobile pool prefix updated from $prefixPool to $prefixLTE";
+
+                $mklog "Freemobile pool prefix updated from $prefixPool to $prefixLTE";
                 
             } else={
                 :put "Freemobile pool don't need update";
             }
         } else={
-            /log/info message="There's no Freemobile 4G interface";
+            $mklog "There's no Freemobile 4G interface";
         }
     }
 }
