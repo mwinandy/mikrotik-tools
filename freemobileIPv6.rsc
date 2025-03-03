@@ -8,7 +8,7 @@
 
     [$mkToolsWaitInternet];
     
-    :if ( ([/interface/lte/monitor "LTE" once as-value]->"functionality") = "full" ) do={ 
+    :if ( ([/interface/lte/monitor "LTE" once as-value]->"status") = "connected" ) do={ 
         
         :local lteAddresses [/ipv6/address find where (interface="LTE" and global true and dynamic true)];
         
