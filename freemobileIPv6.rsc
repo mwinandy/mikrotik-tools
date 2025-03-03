@@ -8,9 +8,9 @@
 
     [$mkToolsWaitInternet];
     
-    :if ( ([/interface/lte/monitor "Freemobile 4G" once as-value]->"functionality") = "full" ) do={ 
+    :if ( ([/interface/lte/monitor "LTE" once as-value]->"functionality") = "full" ) do={ 
         
-        :local lteAddresses [/ipv6/address find where (interface="Freemobile 4G" and global true and dynamic true)];
+        :local lteAddresses [/ipv6/address find where (interface="LTE" and global true and dynamic true)];
         
         :if ( [:len $lteAddresses] = 1 ) do={
             
@@ -27,7 +27,7 @@
                 /ipv6/pool/add name=freemobile prefix=2a0d:e487::/64 prefix-length=64;
             }
             
-            :local poolList [/ipv6/pool/find where (name="freemobile")];
+            :local poolList [/ipv6/pool/find where (name="IPv6_POOL_FREEMOBILE")];
             :local pool [/ipv6/pool/get number=($poolList->0)];
             :local poolPrefixIPv6 [$mkToolsSplitIPv6 ($pool->"prefix")];
             :put $poolPrefixIPv6;
@@ -40,7 +40,7 @@
             
             :if ( [:len $prefixLTE] = 0 || $prefixLTE != $prefixPool ) do={
                 
-                :local addressToDisable [/ipv6/address find where (from-pool="freemobile")];
+                :local addressToDisable [/ipv6/address find where (from-pool="IPv6_POOL_FREEMOBILE")];
                 
                 :foreach address in=$addressToDisable do={
                     /ipv6/address/disable numbers=$address;
