@@ -23,8 +23,8 @@
             :local freeMobileAddressIPv6 [$mkToolsSplitIPv6 ($freeMobileAddress->"address")];
             :put $freeMobileAddressIPv6;
            
-            :if ( [:len [/ipv6/pool/find where (name="freemobile")]] = 0 ) do={
-                /ipv6/pool/add name=freemobile prefix=2a0d:e487::/64 prefix-length=64;
+            :if ( [:len [/ipv6/pool/find where (name="IPv6_POOL_FREEMOBILE")]] = 0 ) do={
+                /ipv6/pool/add name="IPv6_POOL_FREEMOBILE" prefix=2a0d:e487::/64 prefix-length=64;
             }
             
             :local poolList [/ipv6/pool/find where (name="IPv6_POOL_FREEMOBILE")];
