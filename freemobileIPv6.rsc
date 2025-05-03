@@ -60,7 +60,7 @@
                 :put "Freemobile pool don't need update";
             }
         } else={
-            $mklog "There's no Freemobile 4G interface";
+            $mklog "There's no Freemobile 4G with IPv6 interface";
         }
     }
 }
