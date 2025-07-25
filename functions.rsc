@@ -41,7 +41,11 @@
         :if ( [:len $1] > 0 ) do={
             :put "$1";
             /log/info message="$1";
-            [$mkToolsTelegramSendMessage $1];
+
+            :if ( [:len $2] = 0 ) do={
+                [$mkToolsTelegramSendMessage $1];
+            };
+
         };
 
     };
