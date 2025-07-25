@@ -14,14 +14,14 @@
         
         :if ( [:len $lteAddresses] = 1 ) do={
             
-            :put "LTE interface Freemobile Found";
+            $mklog "LTE interface Freemobile Found";
             
             :local freeMobileAddress [/ipv6/address/get number=($lteAddresses->0)];
             
-            :put ("Freemobile IPv6: ".($freeMobileAddress->"address"));
+            $mklog ("Freemobile IPv6: ".($freeMobileAddress->"address"));
             
             :local freeMobileAddressIPv6 [$mkToolsSplitIPv6 ($freeMobileAddress->"address")];
-            :put $freeMobileAddressIPv6;
+            $mklog $freeMobileAddressIPv6;
            
             :if ( [:len [/ipv6/pool/find where (name="IPv6_POOL_FREEMOBILE")]] = 0 ) do={
                 /ipv6/pool/add name="IPv6_POOL_FREEMOBILE" prefix=2a0d:e487::/64 prefix-length=64;
@@ -30,13 +30,13 @@
             :local poolList [/ipv6/pool/find where (name="IPv6_POOL_FREEMOBILE")];
             :local pool [/ipv6/pool/get number=($poolList->0)];
             :local poolPrefixIPv6 [$mkToolsSplitIPv6 ($pool->"prefix")];
-            :put $poolPrefixIPv6;
+            $mklog $poolPrefixIPv6;
             
             :local prefixLTE [:pick ($freeMobileAddressIPv6->"ip") 0 19];
             :local prefixPool [:pick ($poolPrefixIPv6->"ip") 0 19];
             
-            :put "Current LTE prefix $prefixLTE";
-            :put "Current pool prefix $prefixPool";
+            $mklog "Current LTE prefix $prefixLTE";
+            $mklog "Current pool prefix $prefixPool";
             
             :if ( [:len $prefixLTE] = 0 || $prefixLTE != $prefixPool ) do={
                 
