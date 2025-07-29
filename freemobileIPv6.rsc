@@ -42,6 +42,9 @@
                 
                 :local addressToDisable [/ipv6/address find where (from-pool="IPv6_POOL_FREEMOBILE")];
                 
+                #only filter on enabled address
+                #switch off switch on ND of addresses interface
+
                 :foreach address in=$addressToDisable do={
                     /ipv6/address/disable numbers=$address;
                 };
