@@ -81,8 +81,6 @@
         
         :set ($resultArray->"prefix") "/128";
         
-        :local inputIPv6 ($1);
-        
         :local prefixPos [:find $inputIPv6 "/"];
         
         :if ( !([:typeof $prefixPos] ~ "(nil|nothing)")) do={
