@@ -32,6 +32,7 @@
             :local poolPrefixIPv6 [$mkToolsSplitIPv6 ($pool->"prefix")];
             $mklog ($poolPrefixIPv6) 1;
             
+            # Extraction manuelle du préfixe /64 basé sur les 4 premiers blocs (19 caractères) du format IPv6 canonique (ex: xxxx:xxxx:xxxx:xxxx)
             :local prefixLTE [:pick ($freeMobileAddressIPv6->"ip") 0 19];
             :local prefixPool [:pick ($poolPrefixIPv6->"ip") 0 19];
             
@@ -40,12 +41,9 @@
             
             :if ( [:len $prefixLTE] = 0 || $prefixLTE != $prefixPool ) do={
                 
-                :local addressToDisable [/ipv6/address find where (from-pool="IPv6_POOL_FREEMOBILE")];
-                
-                #only filter on enabled address
-                #switch off switch on ND of addresses interface
+                :local addressesToUpdate [/ipv6/address find where (from-pool="IPv6_POOL_FREEMOBILE" && disabled=no)]
 
-                :foreach address in=$addressToDisable do={
+                :foreach address in=$addressesToUpdate do={
                     /ipv6/address/disable numbers=$address;
                 };
                 
@@ -53,8 +51,13 @@
                    /ipv6/pool/set numbers=$poolItem prefix=($prefixLTE."::/64");
                 };
                 
-                :foreach address in=$addressToDisable do={
+                :foreach address in=$addressesToUpdate do={
                     /ipv6/address/enable numbers=$address;
+                };
+
+                :foreach nd in=[/ipv6/nd find where (disabled=no)] do={
+                    /ipv6/nd/disable numbers=$nd;
+                    /ipv6/nd/enable numbers=$nd;
                 };
 
                 $mklog ("Freemobile pool prefix updated from $prefixPool to $prefixLTE");
