@@ -74,6 +74,15 @@
         };
     };
     
+    :global mkToolsGetIPv6 do={
+        :local result [/tool fetch url="https://api6.ipify.org" http-method=get as-value output=user];
+        :return ($result->"data");
+    };
+
+    :global mkToolsGetIPv4 do={
+        :local result [/tool fetch url="https://api.ipify.org" http-method=get as-value output=user];
+        :return ($result->"data");
+    };
 
     :global mkToolsSplitIPv6 do={
         :local inputIPv6 ($1);
