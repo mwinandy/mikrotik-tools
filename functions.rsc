@@ -85,52 +85,103 @@
     };
 
     :global mkToolsSplitIPv6 do={
-        :local inputIPv6 ($1);
-        :local resultArray [];
-        
-        :set ($resultArray->"prefix") "/128";
-        
-        :local prefixPos [:find $inputIPv6 "/"];
-        
-        :if ( !([:typeof $prefixPos] ~ "(nil|nothing)")) do={
-            #AVEC PREFIX
-            :set ($resultArray->"prefix") ([:pick $inputIPv6 $prefixPos [:len $inputIPv6] ]);
-            :set inputIPv6 ([:pick $inputIPv6 0 $prefixPos]);
+
+        :local inputIPv6 ($1)
+        :local resultArray []
+        :set ($resultArray->"prefix") "/128"
+    
+        # Extraire /prefix si présent
+        :local prefixPos [:find $inputIPv6 "/"]
+        :if ([:typeof $prefixPos] != "nil") do={
+            :set ($resultArray->"prefix") ([:pick $inputIPv6 $prefixPos [:len $inputIPv6]])
+            :set inputIPv6 ([:pick $inputIPv6 0 $prefixPos])
         }
-        
-        
-        :local ip $inputIPv6;
-        
-        :foreach i in=[:range from=1 to=8] do={
-        
-            :local right [:find $ip ":"];
-            :local block "";
-        
-            if ([:typeof $right] ~ "num") do={
-                :set block ([:tostr [:pick $ip 0 $right ]]);
-                :set ip ([:pick $ip ($right + 1) [:len $ip]]);
-            } else={
-                :set block ($ip);
-                :set ip "0000";
-            };
-        
-            :while ( [:len $block] < 4 ) do={ 
-                :set block ("0".$block);
+    
+        :local blocks []
+        :local doubleColonPos [:find $inputIPv6 "::"]
+    
+        :if ([:typeof $doubleColonPos] != "nil") do={
+    
+            :local leftPart [:pick $inputIPv6 0 $doubleColonPos]
+            :local rightPart [:pick $inputIPv6 ($doubleColonPos + 2) [:len $inputIPv6]]
+    
+            # Découpage manuel de gauche
+            :local leftBlocks []
+            :if ([:len $leftPart] > 0) do={
+                :local ip $leftPart
+                :while ([:len $ip] > 0) do={
+                    :local sepPos [:find $ip ":"]
+                    :if ([:typeof $sepPos] = "nil") do={
+                        :set leftBlocks ($leftBlocks , $ip)
+                        :set ip ""
+                    } else={
+                        :set leftBlocks ($leftBlocks , [:pick $ip 0 $sepPos])
+                        :set ip [:pick $ip ($sepPos + 1) [:len $ip]]
+                    }
+                }
             }
-        
-            :set ($resultArray->"block_$i") $block;
-                
+    
+            # Découpage manuel de droite
+            :local rightBlocks []
+            :if ([:len $rightPart] > 0) do={
+                :local ip $rightPart
+                :while ([:len $ip] > 0) do={
+                    :local sepPos [:find $ip ":"]
+                    :if ([:typeof $sepPos] = "nil") do={
+                        :set rightBlocks ($rightBlocks , $ip)
+                        :set ip ""
+                    } else={
+                        :set rightBlocks ($rightBlocks , [:pick $ip 0 $sepPos])
+                        :set ip [:pick $ip ($sepPos + 1) [:len $ip]]
+                    }
+                }
+            }
+    
+            :local totalBlocks ([:len $leftBlocks] + [:len $rightBlocks])
+            :local missingCount (8 - $totalBlocks)
+    
+            :foreach blk in=$leftBlocks do={ :set blocks ($blocks , $blk) }
+            :for i from=1 to=$missingCount do={ :set blocks ($blocks , "0") }
+            :foreach blk in=$rightBlocks do={ :set blocks ($blocks , $blk) }
+    
+        } else={
+            # Découpage manuel complet
+            :local ip $inputIPv6
+            :while ([:len $ip] > 0) do={
+                :local sepPos [:find $ip ":"]
+                :if ([:typeof $sepPos] = "nil") do={
+                    :set blocks ($blocks , $ip)
+                    :set ip ""
+                } else={
+                    :set blocks ($blocks , [:pick $ip 0 $sepPos])
+                    :set ip [:pick $ip ($sepPos + 1) [:len $ip]]
+                }
+            }
         }
-        
-        :set ($resultArray->"ip") ($resultArray->"block_1");
-        
-        :foreach i in=[:range from=2 to=8] do={
-                :set ($resultArray->"ip") ($resultArray->"ip".":".($resultArray->"block_$i"));
+    
+        # Compléter si moins de 8 blocs
+        :while ([:len $blocks] < 8) do={
+            :set blocks ($blocks , "0")
         }
-        
-        :set ($resultArray->"ip") ($resultArray->"ip".($resultArray->"prefix"));
-            
-        :return $resultArray;
-    };
+    
+        # Normaliser chaque bloc à 4 chiffres hex
+        :for i from=0 to=7 do={
+            :local blk [:pick $blocks $i]
+            :while ([:len $blk] < 4) do={
+                :set blk ("0" . $blk)
+            }
+            :set ($resultArray->("block_" . ($i + 1))) $blk
+        }
+    
+        # Reconstruction complète de l'IP
+        :set ($resultArray->"ip") ($resultArray->"block_1")
+        :for i from=2 to=8 do={
+            :set ($resultArray->"ip") (($resultArray->"ip") . ":" . ($resultArray->("block_" . $i)))
+        }
+    
+        :set ($resultArray->"ip") (($resultArray->"ip") . ($resultArray->"prefix"))
+        :return $resultArray
+    }
+
 
 }
