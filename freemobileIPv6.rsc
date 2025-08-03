@@ -54,10 +54,11 @@
                 :foreach address in=$addressesToUpdate do={
                     /ipv6/address/enable numbers=$address;
                 };
-
+                
                 :foreach nd in=[/ipv6/nd find where (disabled=no)] do={
                     /ipv6/nd/disable numbers=$nd;
                     /ipv6/nd/enable numbers=$nd;
+                    $mklog ("Advertisement");
                 };
 
                 $mklog ("Freemobile pool prefix updated from $prefixPool to $prefixLTE");
@@ -65,6 +66,18 @@
             } else={
                 $mklog "Freemobile pool don't need update" 1;
             }
+            
+
+            #Dummy rule for packet count
+            :foreach rule in=[/ipv6/firewall/nat/find where (src-address~"^2a0d:e487")] do={
+                /ipv6/firewall/nat/set numbers=$rule src-address=($prefixLTE."::/64");  
+            };
+            
+            #NAT Rule for active connection that's not from current prefix
+            :foreach rule in=[/ipv6/firewall/nat/find where (src-address~"^!2a0d:e487")] do={
+                /ipv6/firewall/nat/set numbers=$rule src-address=("!".$prefixLTE."::/64");  
+            };
+            
         } else={
             $mklog "There's no Freemobile 4G with IPv6 interface";
         }
