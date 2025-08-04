@@ -61,6 +61,16 @@
                     $mklog ("Advertisement");
                 };
 
+                #Dummy rule for packet count
+                :foreach rule in=[/ipv6/firewall/nat/find where (src-address~"^2a0d:e487")] do={
+                    /ipv6/firewall/nat/set numbers=$rule src-address=($prefixLTE."::/64");  
+                };
+            
+                #NAT Rule for active connection that's not from current prefix
+                :foreach rule in=[/ipv6/firewall/nat/find where (src-address~"^!2a0d:e487")] do={
+                    /ipv6/firewall/nat/set numbers=$rule src-address=("!".$prefixLTE."::/64");  
+                };
+
                 $mklog ("Freemobile pool prefix updated from $prefixPool to $prefixLTE");
                 
             } else={
@@ -68,15 +78,7 @@
             }
             
 
-            #Dummy rule for packet count
-            :foreach rule in=[/ipv6/firewall/nat/find where (src-address~"^2a0d:e487")] do={
-                /ipv6/firewall/nat/set numbers=$rule src-address=($prefixLTE."::/64");  
-            };
             
-            #NAT Rule for active connection that's not from current prefix
-            :foreach rule in=[/ipv6/firewall/nat/find where (src-address~"^!2a0d:e487")] do={
-                /ipv6/firewall/nat/set numbers=$rule src-address=("!".$prefixLTE."::/64");  
-            };
             
         } else={
             $mklog "There's no Freemobile 4G with IPv6 interface";
