@@ -33,6 +33,10 @@
             "path"="flash/mktools/freemobileIPv6.rsc"
         };
         {
+            "url"="https://raw.githubusercontent.com/mwinandy/mikrotik-tools/refs/heads/main/lteRestart.rsc";
+            "path"="flash/mktools/lteRestart.rsc"
+        };
+        {
             "url"="https://raw.githubusercontent.com/mwinandy/mikrotik-tools/refs/heads/main/functions.rsc";
             "path"="flash/mktools/functions.rsc"
         };
