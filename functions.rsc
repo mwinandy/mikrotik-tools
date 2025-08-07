@@ -42,21 +42,24 @@
         :local mode $2
 
         # ========================
-        # BITFIELD MODE OVERVIEW:
-        #
-        # Bit 0 (1) → put dans le terminal
-        # Bit 1 (2) → log dans /log info
-        # Bit 2 (4) → envoyer via Telegram
-        #
-        # Exemples :
-        # mode = 1  → put uniquement
-        # mode = 2  → log uniquement
-        # mode = 3  → put + log
-        # mode = 4  → telegram uniquement
-        # mode = 5  → put + telegram
-        # mode = 6  → log + telegram
-        # mode = 7  → put + log + telegram
+        # HELP MODE (-h)
         # ========================
+        :if ($message = "-h") do={
+        
+            :put "mklog - Liste des bits disponibles :"
+            :put " 1 (bit 0) → put dans le terminal"
+            :put " 2 (bit 1) → log dans /log info"
+            :put " 4 (bit 2) → envoi via Telegram"
+            :put "Combinaisons possibles :"
+            :put "  1 → put"
+            :put "  2 → log"
+            :put "  3 → put + log"
+            :put "  4 → telegram"
+            :put "  5 → put + telegram"
+            :put "  6 → log + telegram"
+            :put "  7 → put + log + telegram"
+            :return
+        }
 
         :if ([:len $message] = 0) do={ :return }
     
