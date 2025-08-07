@@ -40,7 +40,24 @@
     
         :local message $1
         :local mode $2
-    
+
+        # ========================
+        # BITFIELD MODE OVERVIEW:
+        #
+        # Bit 0 (1) → put dans le terminal
+        # Bit 1 (2) → log dans /log info
+        # Bit 2 (4) → envoyer via Telegram
+        #
+        # Exemples :
+        # mode = 1  → put uniquement
+        # mode = 2  → log uniquement
+        # mode = 3  → put + log
+        # mode = 4  → telegram uniquement
+        # mode = 5  → put + telegram
+        # mode = 6  → log + telegram
+        # mode = 7  → put + log + telegram
+        # ========================
+
         :if ([:len $message] = 0) do={ :return }
     
         :if ([:len $mode] = 0) do={ :set mode 1 }  # Default to 'put' only
