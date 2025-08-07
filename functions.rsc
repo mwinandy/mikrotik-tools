@@ -38,32 +38,27 @@
     
         :global mkToolsTelegramSendMessage;
     
-        :local mode $1
-        :local message $2
+        :local message $1
+        :local mode $2
     
         :if ([:len $message] = 0) do={
-            :set message "Message vide"
+            :return
         }
     
-        :if ($mode = "3") do={
-            :put "$message"
-            /log info message="$message"
-            [$mkToolsTelegramSendMessage $message]
-        } else={
-            :if ($mode = "2") do={
-                :put "$message"
-                /log info message="$message"
-            } else={
-                :if ($mode = "1" || [:len $mode] = 0) do={
-                    :put "$message"
-                } else={
-                    :if ($mode = "4") do={
-                        :put "$message"
-                        [$mkToolsTelegramSendMessage $message]
-                    }
-                }
-            }
+        :if ([:len $mode] = 0) do={
+            :set mode "1"
         }
+    
+        :put "$message"
+    
+        :if ($mode = "2" || $mode = "3") do={
+            /log info message="$message"
+        }
+    
+        :if ($mode = "3" || $mode = "4") do={
+            [$mkToolsTelegramSendMessage $message]
+        }
+    
     };
 
     :global mkToolsGetCloudIP do={
