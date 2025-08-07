@@ -41,20 +41,21 @@
         :local message $1
         :local mode $2
     
-        :if ([:len $message] = 0) do={
-            :return
+        :if ([:len $message] = 0) do={ :return }
+    
+        :if ([:len $mode] = 0) do={ :set mode "0" }
+    
+        # put toujours si mode = 0, 1, ou vide
+        :if ($mode = "0" || $mode = "1" || [:len $2] = 0) do={
+            :put "$message"
         }
     
-        :if ([:len $mode] = 0) do={
-            :set mode "1"
-        }
-    
-        :put "$message"
-    
-        :if ($mode = "2" || $mode = "3") do={
+        # log uniquement si mode = 1 ou 2 ou 3
+        :if ($mode = "1" || $mode = "2" || $mode = "3") do={
             /log info message="$message"
         }
     
+        # telegram uniquement si mode = 3 ou 4
         :if ($mode = "3" || $mode = "4") do={
             [$mkToolsTelegramSendMessage $message]
         }
