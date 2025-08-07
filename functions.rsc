@@ -34,7 +34,7 @@
         
     };
 
-    :global mklog do={
+        :global mklog do={
     
         :global mkToolsTelegramSendMessage;
     
@@ -43,20 +43,17 @@
     
         :if ([:len $message] = 0) do={ :return }
     
-        :if ([:len $mode] = 0) do={ :set mode "0" }
+        :if ([:len $mode] = 0) do={ :set mode 1 }  # Default to 'put' only
     
-        # put toujours si mode = 0, 1, ou vide
-        :if ($mode = "0" || $mode = "1" || [:len $2] = 0) do={
+        :if ( ($mode & 1) = 1 ) do={
             :put "$message"
         }
     
-        # log uniquement si mode = 1 ou 2 ou 3
-        :if ($mode = "1" || $mode = "2" || $mode = "3") do={
+        :if ( ($mode & 2) = 2 ) do={
             /log info message="$message"
         }
     
-        # telegram uniquement si mode = 3 ou 4
-        :if ($mode = "3" || $mode = "4") do={
+        :if ( ($mode & 4) = 4 ) do={
             [$mkToolsTelegramSendMessage $message]
         }
     
