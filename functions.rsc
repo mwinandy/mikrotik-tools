@@ -35,21 +35,37 @@
     };
 
     :global mklog do={
-
-        :global mkToolsTelegramSendMessage;
-
-        :if ( [:len $1] > 0 ) do={
-            :put "$1";
-            /log/info message="$1";
-
-            :if ( [:len $2] = 0 ) do={
-                [$mkToolsTelegramSendMessage $1];
-            };
-
-        };
-
-    };
     
+        :global mkToolsTelegramSendMessage;
+    
+        :local mode $1
+        :local message $2
+    
+        :if ([:len $message] = 0) do={
+            :set message "Message vide"
+        }
+    
+        :if ($mode = "3") do={
+            :put "$message"
+            /log info message="$message"
+            [$mkToolsTelegramSendMessage $message]
+        } else={
+            :if ($mode = "2") do={
+                :put "$message"
+                /log info message="$message"
+            } else={
+                :if ($mode = "1" || [:len $mode] = 0) do={
+                    :put "$message"
+                } else={
+                    :if ($mode = "4") do={
+                        :put "$message"
+                        [$mkToolsTelegramSendMessage $message]
+                    }
+                }
+            }
+        }
+    };
+
     :global mkToolsGetCloudIP do={
         /ip/cloud/force-update;
         :delay 1s;
