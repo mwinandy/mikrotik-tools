@@ -65,7 +65,7 @@
         # NORMAL MODE
         # ========================
 
-        :if ([:len $message] = 0) do={ :return }
+        :if ([:len $message] = 0) do={ :return "" }
 
         :if ([:len $mode] = 0) do={ :set mode 1 }
 
