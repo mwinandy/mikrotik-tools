@@ -33,6 +33,8 @@
         }
         
     };
+
+
     :global mklog do={
 
         :global mkToolsTelegramSendMessage;
@@ -56,7 +58,7 @@
             :put "  5 → put + telegram"
             :put "  6 → log + telegram"
             :put "  7 → put + log + telegram"
-            :return
+            :return ""
         }
 
         # ========================
@@ -83,6 +85,8 @@
         }
 
     };
+
+
 
     :global mkToolsGetCloudIP do={
         /ip/cloud/force-update;
