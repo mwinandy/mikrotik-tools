@@ -33,11 +33,10 @@
         }
         
     };
-
     :global mklog do={
-    
+
         :global mkToolsTelegramSendMessage;
-    
+
         :local message $1
         :local mode $2
 
@@ -45,7 +44,6 @@
         # HELP MODE (-h)
         # ========================
         :if ($message = "-h") do={
-        
             :put "mklog - Liste des bits disponibles :"
             :put " 1 (bit 0) → put dans le terminal"
             :put " 2 (bit 1) → log dans /log info"
@@ -61,22 +59,29 @@
             :return
         }
 
+        # ========================
+        # NORMAL MODE
+        # ========================
+
         :if ([:len $message] = 0) do={ :return }
-    
-        :if ([:len $mode] = 0) do={ :set mode 1 }  # Default to 'put' only
-    
-        :if ( ($mode & 1) = 1 ) do={
+
+        :if ([:len $mode] = 0) do={ :set mode 1 }
+
+        # Bit 0 → put
+        :if (($mode & 1) = 1) do={
             :put "$message"
         }
-    
-        :if ( ($mode & 2) = 2 ) do={
+
+        # Bit 1 → log
+        :if (($mode & 2) = 2) do={
             /log info message="$message"
         }
-    
-        :if ( ($mode & 4) = 4 ) do={
+
+        # Bit 2 → Telegram
+        :if (($mode & 4) = 4) do={
             [$mkToolsTelegramSendMessage $message]
         }
-    
+
     };
 
     :global mkToolsGetCloudIP do={
